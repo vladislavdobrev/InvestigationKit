@@ -11,6 +11,7 @@ var app = app || {};
     }
     
     function start() {
+        a.insertRecord(viewModel.title);
         a.application.navigate("views/investigation-view.html#investigation-view");
     }
     
