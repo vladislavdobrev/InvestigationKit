@@ -1,0 +1,16 @@
+<div data-role="view"
+     id="new-investigation-view"
+     data-id="new-investigation-view"
+     data-layout="not-home-layout"
+     data-title="New Investigation"
+     data-show="app.newInvestigation.init">
+    <div id="home">
+        <h1>Add investigation info</h1>
+        <br>
+        <input id="title"
+               type="text"
+               data-bind="attr: {placeholder: placeholder, value: title}" />
+        <button data-click="app.newInvestigation.start"
+                data-role="button">Start a new investigation</button>
+    </div>
+</div>
