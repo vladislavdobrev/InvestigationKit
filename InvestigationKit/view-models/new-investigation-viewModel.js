@@ -2,7 +2,6 @@ var app = app || {};
 
 (function(a) {
     var viewModel = kendo.observable({
-        placeholder: "Title",
         title: ""
     });
     
@@ -11,7 +10,7 @@ var app = app || {};
     }
     
     function start() {
-        a.insertRecord(viewModel.title);
+        a.insertRecordTitles(viewModel.title);
         a.application.navigate("views/investigation-view.html#investigation-view");
     }
     

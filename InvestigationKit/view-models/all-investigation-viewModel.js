@@ -3,25 +3,22 @@ var app = app || {};
 (function(a) {
     var viewModel = kendo.observable({
         data: [],
-        selectedInvestigation: null,
-        change: onInvestigationChanged
+        itemClicked: itemClicked
     });
     
     function init(e) {
-        investigationDataSource.fetch(function () {
-            var data = this.data();
-            viewModel.set("data", data);
+        a.getAllTitles()
+        .then(function(results) {
+            viewModel.set("data", results);
         });
-        
-        kendo.bind(e.view.element, viewModel);       
+        kendo.bind(e.view.element, viewModel);
     }
     
-    function onInvestigationChanged(e) {
-        var id = parseInt(e.sender._selectedValue);
-        viewModel.set("selectedInvestigation", viewModel.model[id - 1]);
+    function itemClicked(e) {
+        a.application.navigate("views/investigation-view.html#investigation-view");
     }
     
-    a.investigation = {
+    a.allInvestigation = {
         init: init          
     };
 }(app));

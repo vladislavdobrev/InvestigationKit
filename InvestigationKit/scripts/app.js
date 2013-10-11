@@ -16,53 +16,63 @@ app.db = null;
             }
         }
         
-        app.createTable = function() {
+        app.createTableTitles = function() {
             app.db.transaction(function(tx) {
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_titles (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
             });
         }
         
-        app.insertRecord = function(t) {
+        app.insertRecordTitles = function(t) {
             app.db.transaction(function(tx) {
                 var cDate = new Date();
-                tx.executeSql("INSERT INTO investigation_titles (text_sample, date_sample) VALUES (?,?)", [t, cDate]);
+                tx.executeSql("INSERT INTO investigation_titles (title, created) VALUES (?,?)", [t, cDate]);
             });
         }
         
-        app.getAll = function() {
+        app.getAllTitles = function() {
+            var promise = new RSVP.Promise(function(resolve, reject) {
+                app.db.transaction(function(tx) {
+                    tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y) {
+                        var results = [];
+                        for (var i = 0; i < y.rows.length; i++) {
+                            results.push(y.rows.item(i));
+                        }
+                        
+                        resolve(results);
+                    });
+                });
+            });
+            
+            return promise;
+        }
+        
+        app.createTableNotes = function() {
             app.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y){
-                    console.log(y.rows);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE)", []);
+            });
+        }
+        
+        app.insertRecordNotes = function(text, latitude, longitude) {
+            app.db.transaction(function(tx) {
+                var cDate = new Date();
+                tx.executeSql("INSERT INTO investigation_notes (text, created, latitude, longitude) VALUES (?,?,?,?)", [text, cDate, latitude, longitude]);
+            });
+        }
+        
+        app.getAllNotes = function() {
+            app.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM investigation_notes", [], function(x, y) {
+                    for (var i = 0; i < y.rows.length; i++) {
+                        console.log(y.rows.item(i));
+                    }
                 });
             });
         }
-        
-        app.refresh = function() {
-            /*var renderTodo = function (row) {
-                return "<li>" + "<div class='todo-check'></div>" + row.todo + "<a class='button delete' href='javascript:void(0);'  onclick='app.deleteTodo(" + row.ID + ");'><p class='todo-delete'></p></a>" + "<div class='clear'></div>" + "</li>";
-            }
-    
-            var render = function (tx, rs) {
-                var rowOutput = "";
-                var todoItems = document.getElementById("todoItems");
-                for (var i = 0; i < rs.rows.length; i++) {
-                    rowOutput += renderTodo(rs.rows.item(i));
-                }
-      
-                todoItems.innerHTML = rowOutput;
-            }
-    
-            var db = app.db;
-            db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM investigation_titles", [], 
-                              render, 
-                              app.onError);
-            });*/
-        }
 
-        function init() {
+        (function init() {
             app.openDb();
-            app.createTable();
-        }
+            app.createTableTitles();
+            app.createTableNotes();
+        }());
     }, false);    
 }());

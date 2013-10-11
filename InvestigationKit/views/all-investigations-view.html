@@ -2,10 +2,14 @@
      id="all-investigations-view"
      data-id="all-investigations-view"
      data-layout="not-home-layout"
-     data-title="All Investigation">
+     data-title="All Investigation"
+     data-show="app.allInvestigation.init">
     <div id="home">
         <h1>All Investigations</h1>
-        <ul data-role="listview" data-source="data" data-auto-bind="false" data-template="foo-template">
+        <ul data-role="listview"
+            data-source="data"
+            data-template="foo-template"
+            data-click="itemClicked">
         </ul>
     </div>
 </div>
