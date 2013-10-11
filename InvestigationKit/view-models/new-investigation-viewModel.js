@@ -1,10 +1,10 @@
 var app = app || {};
 
 (function(a) {
-    var viewModel = {
+    var viewModel = kendo.observable({
         placeholder: "Title",
         title: ""
-    };
+    });
     
     function init(e) {
         kendo.bind(e.view.element, viewModel);       

@@ -6,7 +6,7 @@ app.db = null;
     document.addEventListener("deviceready", function() {
         app.application = new kendo.mobile.Application(document.body, { transition: "slide" });
         
-        app.sqlite.openDb = function() {
+        app.openDb = function() {
             if (window.sqlitePlugin !== undefined) {
                 app.db = window.sqlitePlugin.openDatabase("Investigation Kit Database");
             }
@@ -25,17 +25,20 @@ app.db = null;
         app.insertRecord = function(t) {
             app.db.transaction(function(tx) {
                 var cDate = new Date();
-                tx.executeSql("INSERT INTO investigation_titles (text_sample, date_sample) VALUES (?,?)",
-                              [t, cDate],
-                              function() {
-                              },
-                              function() {
-                              });
+                tx.executeSql("INSERT INTO investigation_titles (text_sample, date_sample) VALUES (?,?)", [t, cDate]);
+            });
+        }
+        
+        app.getAll = function() {
+            app.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y){
+                    console.log(y.rows);
+                });
             });
         }
         
         app.refresh = function() {
-            var renderTodo = function (row) {
+            /*var renderTodo = function (row) {
                 return "<li>" + "<div class='todo-check'></div>" + row.todo + "<a class='button delete' href='javascript:void(0);'  onclick='app.deleteTodo(" + row.ID + ");'><p class='todo-delete'></p></a>" + "<div class='clear'></div>" + "</li>";
             }
     
@@ -54,13 +57,12 @@ app.db = null;
                 tx.executeSql("SELECT * FROM investigation_titles", [], 
                               render, 
                               app.onError);
-            });
+            });*/
         }
 
         function init() {
             app.openDb();
             app.createTable();
-            app.refresh();
         }
     }, false);    
 }());
