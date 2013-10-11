@@ -3,15 +3,21 @@ var app = app || {};
 (function(a) {
     var viewModel = kendo.observable({
         data: [],
-        itemClicked: itemClicked
+        itemClicked: itemClicked,
+        deleteItem: deleteItem
     });
     
     function init(e) {
         a.getAllTitles()
         .then(function(results) {
             viewModel.set("data", results);
+            kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
         });
-        kendo.bind(e.view.element, viewModel);
+    }
+    
+    function deleteItem(e) {
+        var item = e.button.closest("li");
+        item.destroy();
     }
     
     function itemClicked(e) {
