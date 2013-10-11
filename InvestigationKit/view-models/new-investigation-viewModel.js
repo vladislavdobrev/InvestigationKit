@@ -10,9 +10,16 @@ var app = app || {};
     }
     
     function start() {
-        a.insertRecordTitles(viewModel.title);
+        insertRecord(viewModel.title);
         a.application.navigate("views/investigation-view.html#investigation-view");
     }
+    
+    function insertRecord(t) {
+        app.db.transaction(function(tx) {
+            var cDate = new Date();
+            tx.executeSql("INSERT INTO investigation_titles (title, created) VALUES (?,?)", [t, cDate]);
+        });
+    };
     
     a.newInvestigation = {
         init: init,

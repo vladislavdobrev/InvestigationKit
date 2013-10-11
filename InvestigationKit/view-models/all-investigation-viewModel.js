@@ -2,27 +2,32 @@ var app = app || {};
 
 (function(a) {
     var viewModel = kendo.observable({
-        data: [],
-        itemClicked: itemClicked,
-        deleteItem: deleteItem
+        data: []
     });
     
     function init(e) {
-        a.getAllTitles()
-        .then(function(results) {
+        getAll().then(function(results) {
             viewModel.set("data", results);
             kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
         });
     }
-    
-    function deleteItem(e) {
-        var item = e.button.closest("li");
-        item.destroy();
-    }
-    
-    function itemClicked() {
-        a.application.navigate("views/investigation-view.html#investigation-view");
-    }
+
+    function getAll() {
+        var promise = new RSVP.Promise(function(resolve, reject) {
+            app.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y) {
+                    var results = [];
+                    for (var i = 0; i < y.rows.length; i++) {
+                        results.push(y.rows.item(i));
+                    }
+                        
+                    resolve(results);
+                });
+            });
+        });
+            
+        return promise;
+    };
     
     a.allInvestigation = {
         init: init          
