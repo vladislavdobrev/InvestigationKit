@@ -16,9 +16,10 @@ app.db = null;
             }
         }
         
-        app.createTableTitles = function() {
+        app.createTables = function() {
             app.db.transaction(function(tx) {
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_titles (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE)", []);
             });
         }
         
@@ -46,12 +47,6 @@ app.db = null;
             return promise;
         }
         
-        app.createTableNotes = function() {
-            app.db.transaction(function(tx) {
-                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE)", []);
-            });
-        }
-        
         app.insertRecordNotes = function(text, latitude, longitude) {
             app.db.transaction(function(tx) {
                 var cDate = new Date();
@@ -59,20 +54,22 @@ app.db = null;
             });
         }
         
-        app.getAllNotes = function() {
+        app.getAllNotes = function(){
             app.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM investigation_notes", [], function(x, y) {
+                tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y) {
+                    var results = [];
                     for (var i = 0; i < y.rows.length; i++) {
-                        console.log(y.rows.item(i));
+                        results.push(y.rows.item(i));
                     }
+                        
+                    resolve(results);
                 });
             });
         }
 
         (function init() {
             app.openDb();
-            app.createTableTitles();
-            app.createTableNotes();
+            app.createTables();
         }());
     }, false);    
 }());

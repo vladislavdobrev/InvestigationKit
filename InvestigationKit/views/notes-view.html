@@ -1,0 +1,25 @@
+<div data-role="view"
+     id="notes-view"
+     data-id="notes-view"
+     data-layout="not-home-layout"
+     data-title="Notes"
+    data-show="app.notes.init">
+    <div id="home">
+        <h1>Notes</h1>
+        <input type="text"
+               placeholder="Enter a note"
+               data-bind="value: newNote.text" />
+        <button data-click="app.notes.add"
+                data-role="button">Add a note</button>
+        <br>
+        <ul data-role="listview"
+            data-bind="source: data"
+            data-style="inset"
+            data-template="itemTemplate">
+        </ul>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="itemTemplate">
+    <p>#: text #</p>
+</script>

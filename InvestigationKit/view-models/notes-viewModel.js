@@ -3,15 +3,28 @@ var app = app || {};
 (function(a) {
     var viewModel = kendo.observable({
         data: [],
-        itemClicked: itemClicked,
-        deleteItem: deleteItem
+        newNote: {
+            text: ""
+        }
     });
     
     function init(e) {
-        a.getAllTitles()
+        a.getAllNotes()
         .then(function(results) {
             viewModel.set("data", results);
             kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
+        });
+    }
+    
+    function addNewNote(e) {
+        navigator.geolocation.watchPosition(function(position) {
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            a.insertRecordNotes(viewModel.newNote.text, lat, long)
+        }, function() {
+        }, {
+            enableHighAccuracy: true,
+            maximumAge: 1000
         });
     }
     
@@ -24,7 +37,8 @@ var app = app || {};
         a.application.navigate("views/investigation-view.html#investigation-view");
     }
     
-    a.allInvestigation = {
-        init: init          
+    a.notes = {
+        init: init,
+        add: addNewNote
     };
 }(app));

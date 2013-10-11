@@ -9,12 +9,11 @@
         <ul data-role="listview"
             data-bind="source: data"
             data-style="inset"
-            data-template="itemTemplate"
-            data-click="itemClicked">
+            data-template="itemTemplate">
         </ul>
     </div>
 </div>
 
 <script type="text/x-kendo-template" id="itemTemplate">
-    <a data-role="button">#:title#<a data-role="detailbutton" data-style="rowdelete"></a></a>
+    <a data-click="itemClicked" data-tap="itemClicked" data-role="button">#: title #</a>
 </script>
