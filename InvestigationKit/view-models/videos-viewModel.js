@@ -16,7 +16,7 @@ app.currentVideo = app.currentVideo || null;
         getAll().then(function(results) {
             viewModel.set("data", results);
             kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
-        });
+        }, a.error);
     }
     
     function addNewVideo(e) {
@@ -25,12 +25,10 @@ app.currentVideo = app.currentVideo || null;
             var long = position.coords.longitude;
             navigator.device.capture.captureVideo(function (videoFile) {
                 insertRecord(videoFile.fullPath, lat, long);
-            }, function (error) {
-            }, {
+            }, a.error, {
                 limit: 1
             });
-        }, function() {
-        }, {
+        }, a.error, {
             enableHighAccuracy: true
         });
     }
@@ -42,10 +40,8 @@ app.currentVideo = app.currentVideo || null;
             var video = new Video(url, cDate, latitude, longitude, app.currentInvestigation.id);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigation_videos", [], function (x, y) {
                 video.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(image);
-            }, function(err) {
-                console.log(err);
-            });
+                viewModel.data.push(video);
+            }, a.error);
         });
     };
         
@@ -59,6 +55,8 @@ app.currentVideo = app.currentVideo || null;
                     }
                         
                     resolve(results);
+                }, function(error) {
+                    reject(error);
                 });
             });
         });
@@ -75,7 +73,7 @@ app.currentVideo = app.currentVideo || null;
             tx.executeSql("SELECT * FROM investigation_videos WHERE id = ?", [id], function(x, y) {
                 app.currentVideo = convertToModel(y.rows.item(0));
                 a.application.navigate("views/google-maps-view.html#google-maps-view");
-            });
+            }, a.error);
         });
     };
     

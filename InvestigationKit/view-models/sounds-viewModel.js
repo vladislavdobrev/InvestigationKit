@@ -2,7 +2,7 @@ var app = app || {};
 
 app.currentInvestigation = app.currentInvestigation || null;
 
-app.currentImage = app.currentImage || null;
+app.currentSound = app.currentSound || null;
 
 (function(a) {
     var viewModel = kendo.observable({
@@ -10,8 +10,8 @@ app.currentImage = app.currentImage || null;
     });
     
     function init(e) {
-        if (app.currentImage) {
-            app.currentImage = null;
+        if (app.currentSound) {
+            app.currentSound = null;
         }
         getAll().then(function(results) {
             viewModel.set("data", results);
@@ -19,14 +19,14 @@ app.currentImage = app.currentImage || null;
         }, a.error);
     }
     
-    function addNewImage(e) {
+    function addNewSound(e) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
-            navigator.camera.getPicture(function (url) {
-                insertRecord(url, lat, long);
+            navigator.device.capture.captureAudio(function (audioFile) {
+                insertRecord(audioFile.fullPath, lat, long);
             }, a.error, {
-                destinationType: 1
+                limit: 1
             });
         }, a.error, {
             enableHighAccuracy: true
@@ -36,11 +36,11 @@ app.currentImage = app.currentImage || null;
     function insertRecord(url, latitude, longitude) {
         app.db.transaction(function(tx) {
             var cDate = new Date();
-            tx.executeSql("INSERT INTO investigation_images (url, created, latitude, longitude, inv_id) VALUES (?,?,?,?,?)", [url, cDate, latitude, longitude, app.currentInvestigation.id]);
-            var image = new Image(url, cDate, latitude, longitude, app.currentInvestigation.id);
-            tx.executeSql("SELECT MAX(id) as maxId FROM investigation_images", [], function (x, y) {
-                image.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(image);
+            tx.executeSql("INSERT INTO investigation_sounds (url, created, latitude, longitude, inv_id) VALUES (?,?,?,?,?)", [url, cDate, latitude, longitude, app.currentInvestigation.id]);
+            var sound = new Video(url, cDate, latitude, longitude, app.currentInvestigation.id);
+            tx.executeSql("SELECT MAX(id) as maxId FROM investigation_sounds", [], function (x, y) {
+                sound.id = y.rows.item(0)["maxId"];
+                viewModel.data.push(sound);
             }, a.error);
         });
     };
@@ -48,14 +48,14 @@ app.currentImage = app.currentImage || null;
     function getAll() {
         var promise = new RSVP.Promise(function(resolve, reject) {
             app.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM investigation_images WHERE inv_id = ?", [app.currentInvestigation.id], function(x, y) {
+                tx.executeSql("SELECT * FROM investigation_sounds WHERE inv_id = ?", [app.currentInvestigation.id], function(x, y) {
                     var results = [];
                     for (var i = 0; i < y.rows.length; i++) {
                         results.push(convertToModel(y.rows.item(i)));
                     }
                         
                     resolve(results);
-                }, function(error) {
+                }, function (error){
                     reject(error);
                 });
             });
@@ -70,22 +70,22 @@ app.currentImage = app.currentImage || null;
     
     function setById(id) {
         app.db.transaction(function(tx) {
-            tx.executeSql("SELECT * FROM investigation_images WHERE id = ?", [id], function(x, y) {
-                app.currentImage = convertToModel(y.rows.item(0));
+            tx.executeSql("SELECT * FROM investigation_sounds WHERE id = ?", [id], function(x, y) {
+                app.currentVideo = convertToModel(y.rows.item(0));
                 a.application.navigate("views/google-maps-view.html#google-maps-view");
             }, a.error);
         });
     };
     
     function convertToModel(sqliteModel) {
-        var newModel = new Image(sqliteModel.url, sqliteModel.created, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
+        var newModel = new Sound(sqliteModel.url, sqliteModel.created, sqliteModel.desc, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
         newModel.id = sqliteModel.id;
         return newModel;
     };
     
-    a.images = {
+    a.sounds = {
         init: init,
-        add: addNewImage,
+        add: addNewSound,
         onTouch: onTouch
     };
 }(app));

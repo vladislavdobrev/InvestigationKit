@@ -24,7 +24,12 @@ app.currentInvestigation = app.currentInvestigation || null;
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_images (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_videos (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_sounds (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
             });
+        };
+        
+        app.error = function(error){
+            navigator.notification.alert(error, null, "An error occure!");
         };
 
         (function init() {

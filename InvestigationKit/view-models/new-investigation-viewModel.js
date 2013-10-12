@@ -26,7 +26,7 @@ app.currentInvestigation = app.currentInvestigation || null;
             app.currentInvestigation = new Investigation(t, cDate);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigations", [], function (x, y) {
                 app.currentInvestigation.id = y.rows.item(0)["maxId"];
-            });
+            }, a.error);
         });
     };
     

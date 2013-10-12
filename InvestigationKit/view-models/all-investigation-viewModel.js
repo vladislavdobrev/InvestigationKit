@@ -11,7 +11,7 @@ app.currentInvestigation = app.currentInvestigation || null;
         getAll().then(function(results) {
             viewModel.set("data", results);
             kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
-        });
+        }, a.error);
     }
 
     function getAll() {
@@ -24,6 +24,8 @@ app.currentInvestigation = app.currentInvestigation || null;
                     }
                         
                     resolve(results);
+                }, function(error) {
+                    reject(error);
                 });
             });
         });
@@ -40,7 +42,7 @@ app.currentInvestigation = app.currentInvestigation || null;
             tx.executeSql("SELECT * FROM investigations WHERE id = ?", [id], function(x, y) {
                 app.currentInvestigation = y.rows.item(0);
                 a.application.navigate("views/investigation-view.html#investigation-view");
-            });
+            }, a.error);
         });
     };
     

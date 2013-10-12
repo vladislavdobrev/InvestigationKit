@@ -19,7 +19,7 @@ app.currentNote = app.currentNote || null;
         getAll().then(function(results) {
             viewModel.set("data", results);
             kendo.bind(e.view.element, viewModel, kendo.mobile.ui);
-        });
+        }, a.error);
     }
     
     function addNewNote(e) {
@@ -27,8 +27,7 @@ app.currentNote = app.currentNote || null;
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
             insertRecord(viewModel.newNote.text, lat, long);
-        }, function() {
-        }, {
+        }, a.error, {
             enableHighAccuracy: true
         });
     }
@@ -42,9 +41,7 @@ app.currentNote = app.currentNote || null;
                 note.id = y.rows.item(0)["maxId"];
                 viewModel.data.push(note);
                 viewModel.newNote.text = "";
-            }, function(err) {
-                console.log(err);
-            });
+            }, a.error);
         });
     };
         
@@ -58,6 +55,8 @@ app.currentNote = app.currentNote || null;
                     }
                         
                     resolve(results);
+                }, function(error) {
+                    reject(error);
                 });
             });
         });
@@ -74,7 +73,7 @@ app.currentNote = app.currentNote || null;
             tx.executeSql("SELECT * FROM investigation_notes WHERE id = ?", [id], function(x, y) {
                 app.currentNote = convertToModel(y.rows.item(0));
                 a.application.navigate("views/google-maps-view.html#google-maps-view");
-            });
+            }, a.error);
         });
     };
     
