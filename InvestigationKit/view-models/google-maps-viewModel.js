@@ -6,6 +6,8 @@ app.currentNote = app.currentNote || null;
 
 app.currentImage = app.currentImage || null;
 
+app.currentVideo = app.currentVideo || null;
+
 (function(a) {
     var viewModel = {
         latitude: 0,
@@ -21,6 +23,10 @@ app.currentImage = app.currentImage || null;
         else if (app.currentImage) {
             viewModel.latitude = app.currentImage.latitude;
             viewModel.longitude = app.currentImage.longitude;
+        }
+        else if (app.currentVideo) {
+            viewModel.latitude = app.currentVideo.latitude;
+            viewModel.longitude = app.currentVideo.longitude;
         }
         
         var mapsBaseUrl = "http://maps.googleapis.com/maps/api/staticmap";

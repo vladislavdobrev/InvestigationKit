@@ -1,4 +1,4 @@
-var Image = Class.create({
+var Video = Class.create({
     init: function (url, created, latitude, longitude, inv_id) {
         this.id = 0;
         this.url = url;

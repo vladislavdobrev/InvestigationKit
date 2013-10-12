@@ -29,7 +29,7 @@ app.currentNote = app.currentNote || null;
             insertRecord(viewModel.newNote.text, lat, long);
         }, function() {
         }, {
-            enableHighAccuracy: fals
+            enableHighAccuracy: true
         });
     }
     

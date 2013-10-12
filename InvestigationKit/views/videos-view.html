@@ -1,0 +1,24 @@
+<div data-role="view"
+     id="videos-view"
+     data-id="videos-view"
+     data-layout="not-home-layout"
+     data-title="Videos"
+     data-show="app.videos.init">
+    <div id="home">
+        <h1>Videos</h1>
+        <a data-role="button" data-click="app.videos.add">Record new video</a>
+        <div data-role="scrollview" 
+             data-bind="source: data" 
+             data-template="videoTemplate"
+             data-content-height="100%"
+             data-enable-pager="false">
+        </div>
+    </div>
+</div>
+
+<script id="videoTemplate" type="text/x-kendo-template">
+    <div>
+        <div style="background-image: url(#: url #);"></div>
+        <a data-role="button" data-id="${id}" id="${id}" data-click="app.videos.onTouch">Show the place where it's been recorded</a>
+    </div>
+</script>
