@@ -2,7 +2,7 @@ var app = app || {};
 
 app.db = null;
 
-app.currentInvestigation = null;
+app.currentInvestigation = app.currentInvestigation || null;
 
 (function() {
     document.addEventListener("deviceready", function() {
@@ -20,8 +20,8 @@ app.currentInvestigation = null;
         
         app.createTables = function() {
             app.db.transaction(function(tx) {
-                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_titles (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
-                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigations (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER, FOREIGN KEY (inv_id) REFERENCES investigations(id))", []);
             });
         };
 

@@ -15,7 +15,7 @@ var app = app || {};
     function getAll() {
         var promise = new RSVP.Promise(function(resolve, reject) {
             app.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM investigation_titles", [], function(x, y) {
+                tx.executeSql("SELECT * FROM investigations", [], function(x, y) {
                     var results = [];
                     for (var i = 0; i < y.rows.length; i++) {
                         results.push(y.rows.item(i));
