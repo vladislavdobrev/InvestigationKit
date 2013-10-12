@@ -21,7 +21,5 @@
 </div>
 
 <script type="text/x-kendo-template" id="noteTemplate">
-    <div data-role="scroller" data-id="${id}" id="${id}">
-        <p>${text}</p>
-    </div>
+    <a data-role="button" data-id="${id}" id="${id}" data-click="app.notes.onTouch">${text}</a>
 </script>

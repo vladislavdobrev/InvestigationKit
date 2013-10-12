@@ -1,0 +1,15 @@
+<div data-role="view"
+     id="google-maps-view"
+     data-id="google-maps-view"
+     data-layout="not-home-layout"
+     data-title="Google maps"
+     data-stretch="true"
+     data-show="app.googleMaps.init">
+    <div id="home">
+        <img width="300" height="300" data-bind="attr: {src: src}" alt="Google Static Map" />
+        <div>
+            <span>Latitude: </span><span data-bind="text: latitude"></span><br>
+            <span>Longitude: </span><span data-bind="text: longitude"></span><br>
+        </div>
+    </div>
+</div>
