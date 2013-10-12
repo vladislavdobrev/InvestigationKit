@@ -22,6 +22,7 @@ app.currentInvestigation = app.currentInvestigation || null;
             app.db.transaction(function(tx) {
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigations (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_images (id INTEGER PRIMARY KEY ASC, url TEXT, desc TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
             });
         };
 

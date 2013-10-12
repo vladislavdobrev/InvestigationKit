@@ -2,8 +2,6 @@ var app = app || {};
 
 app.currentInvestigation = app.currentInvestigation || null;
 
-app.currentNote = app.currentNote || null;
-
 (function(a) {
     var viewModel = kendo.observable({
         title: ""

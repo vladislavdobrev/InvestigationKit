@@ -1,0 +1,25 @@
+<div data-role="view"
+     id="images-view"
+     data-id="images-view"
+     data-layout="not-home-layout"
+     data-title="Pictures"
+     data-show="app.images.init">
+    <div id="home">
+        <h1>Pictures</h1>
+        <a data-role="button" data-click="app.images.add">Take new picture</a>
+        <div data-role="scrollview" 
+             data-bind="source: data" 
+             data-template="imageTemplate"
+             data-content-height="100%"
+             data-enable-pager="false">
+        </div>
+    </div>
+</div>
+
+<script id="imageTemplate" type="text/x-kendo-template">
+    <div>
+        <div style="background-image: url(#: url #);"></div>
+        <p>#: desc #</p>
+        <a data-role="button" data-id="${id}" id="${id}" data-click="app.images.onTouch">Show the place where it's been taken</a>
+    </div>
+</script>
