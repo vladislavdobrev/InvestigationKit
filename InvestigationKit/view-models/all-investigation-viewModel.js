@@ -1,5 +1,7 @@
 var app = app || {};
 
+app.currentInvestigation = app.currentInvestigation || null;
+
 (function(a) {
     var viewModel = kendo.observable({
         data: []
@@ -29,7 +31,21 @@ var app = app || {};
         return promise;
     };
     
+    function onTouch(e) {
+        setById(e.target.context.id);
+    };
+    
+    function setById(id) {
+        app.db.transaction(function(tx) {
+            tx.executeSql("SELECT * FROM investigations WHERE id = ?", [id], function(x, y) {
+                app.currentInvestigation = y.rows.item(0);
+                a.application.navigate("views/investigation-view.html#investigation-view");
+            });
+        });
+    };
+    
     a.allInvestigation = {
-        init: init          
+        init: init,
+        onTouch: onTouch
     };
 }(app));

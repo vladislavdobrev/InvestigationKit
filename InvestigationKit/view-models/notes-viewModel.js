@@ -1,5 +1,7 @@
 var app = app || {};
 
+app.currentInvestigation = app.currentInvestigation || null;
+
 (function(a) {
     var viewModel = kendo.observable({
         data: [],
@@ -20,7 +22,6 @@ var app = app || {};
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
             insertRecord(viewModel.newNote.text, lat, long);
-            init(e);
         }, function() {
         }, {
             enableHighAccuracy: true
@@ -30,7 +31,14 @@ var app = app || {};
     function insertRecord(text, latitude, longitude) {
         app.db.transaction(function(tx) {
             var cDate = new Date();
-            tx.executeSql("INSERT INTO investigation_notes (text, created, latitude, longitude) VALUES (?,?,?,?)", [text, cDate, latitude, longitude]);
+            tx.executeSql("INSERT INTO investigation_notes (text, created, latitude, longitude, inv_id) VALUES (?,?,?,?,?)", [text, cDate, latitude, longitude, app.currentInvestigation.id]);
+            var note = new Note(text, cDate, latitude, longitude, app.currentInvestigation.id);
+            tx.executeSql("SELECT MAX(id) as maxId FROM investigation_notes", [], function (x, y) {
+                note.id = y.rows.item(0)["maxId"];
+                viewModel.data.push(note);
+            }, function(err){
+                console.log(err);
+            });
         });
     };
         
@@ -40,7 +48,7 @@ var app = app || {};
                 tx.executeSql("SELECT * FROM investigation_notes", [], function(x, y) {
                     var results = [];
                     for (var i = 0; i < y.rows.length; i++) {
-                        results.push(y.rows.item(i));
+                        results.push(convertToModel(y.rows.item(i)));
                     }
                         
                     resolve(results);
@@ -49,6 +57,12 @@ var app = app || {};
         });
             
         return promise;
+    };
+    
+    function convertToModel(sqliteModel){
+        var newModel = new Note(sqliteModel.text, sqliteModel.created, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
+        newModel.id = sqliteModel.id;
+        return newModel;
     };
     
     a.notes = {

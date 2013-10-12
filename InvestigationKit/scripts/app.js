@@ -20,8 +20,8 @@ app.currentInvestigation = app.currentInvestigation || null;
         
         app.createTables = function() {
             app.db.transaction(function(tx) {
-                tx.executeSql("CREATE TABLE IF NOT EXISTS investigations (id INTEGER PRIMARY KEY ASC, title VARCHAR(100), created DATETIME)", []);
-                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id INTEGER PRIMARY KEY ASC, text TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER, FOREIGN KEY (inv_id) REFERENCES investigations(id))", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigations (id int IDENTITY PRIMARY KEY, title varchar(100), created datetime)", []);
+                tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_notes (id int IDENTITY PRIMARY KEY, text text, created datetime, latitude double, longitude double, inv_id int FOREIGN KEY REFERENCES investigations(id))", []);
             });
         };
 
