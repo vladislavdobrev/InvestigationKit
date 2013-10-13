@@ -65,7 +65,7 @@ app.currentSound = app.currentSound || null;
     };
     
     function onTouch(e) {
-        setById(e.target.context.id);
+        setById(e.touch.initialTouch.id);
     };
     
     function setById(id) {

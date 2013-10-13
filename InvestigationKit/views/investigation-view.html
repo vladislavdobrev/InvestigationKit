@@ -1,26 +1,25 @@
 <div data-role="view"
      id="investigation-view"
      data-id="investigation-view"
-     data-layout="not-home-layout"
+     data-layout="investigation-layout"
      data-title="Investigation"
      data-show="app.investigation.init">
     <div id="home">
-        <h1>Investigation</h1>
-        <a data-role="button"
-           href="views/notes-view.html#notes-view">
+        <div data-role="touch"
+             data-tap="app.investigation.takeNote">
             Investigation notes
-        </a><br>
-        <a data-role="button"
-           href="views/images-view.html#images-view">
+        </div>
+        <div data-role="touch"
+             data-tap="app.investigation.takeImage">
             Investigation pictures
-        </a><br>
-        <a data-role="button"
-           href="views/sounds-view.html#sounds-view">
+        </div>
+        <div data-role="touch"
+             data-tap="app.investigation.takeAudio">
             Investigation audio records
-        </a><br>
-        <a data-role="button"
-           href="views/videos-view.html#videos-view">
+        </div>
+        <div data-role="touch"
+             data-tap="app.investigation.takeVideo">
             Investigation video records
-        </a>
+        </div>
     </div>
 </div>

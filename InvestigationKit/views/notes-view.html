@@ -5,12 +5,11 @@
      data-title="Notes"
      data-show="app.notes.init">
     <div id="home">
-        <h1>Notes</h1>
         <input type="text"
                placeholder="Enter a note"
                data-bind="value: newNote.text" />
-        <button data-click="app.notes.add"
-                data-role="button">Add a note</button>
+        <div data-tap="app.notes.add"
+             data-role="touch">Add a note</div>
         <br>
         <ul data-role="listview"
             data-bind="source: data"
@@ -21,5 +20,5 @@
 </div>
 
 <script type="text/x-kendo-template" id="noteTemplate">
-    <a data-role="button" data-id="${id}" id="${id}" data-click="app.notes.onTouch">${text}</a>
+    <div data-role="touch" data-id="${id}" id="${id}" data-tap="app.notes.onTouch">${text}</div>
 </script>

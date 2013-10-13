@@ -5,8 +5,7 @@
      data-title="Videos"
      data-show="app.videos.init">
     <div id="home">
-        <h1>Videos</h1>
-        <a data-role="button" data-click="app.videos.add">Record new video</a>
+        <div data-role="touch" data-tap="app.videos.add">Record new video</div>
         <div data-role="scrollview" 
              data-bind="source: data" 
              data-template="videoTemplate"
@@ -19,6 +18,6 @@
 <script id="videoTemplate" type="text/x-kendo-template">
     <div>
         <div style="background-image: url(#: url #);"></div>
-        <a data-role="button" data-id="${id}" id="${id}" data-click="app.videos.onTouch">Show the place where it's been recorded</a>
+        <div data-role="touch" data-id="${id}" id="${id}" data-tap="app.videos.onTouch">Show the place where it's been recorded</div>
     </div>
 </script>

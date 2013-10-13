@@ -5,7 +5,6 @@
      data-title="All Investigation"
      data-show="app.allInvestigation.init">
     <div id="home">
-        <h1>All Investigations</h1>
         <ul data-role="listview"
             data-bind="source: data"
             data-style="inset"
@@ -15,5 +14,5 @@
 </div>
 
 <script type="text/x-kendo-template" id="itemTemplate">
-    <a data-role="button" data-id="${id}" id="${id}" data-click="app.allInvestigation.onTouch">${title}</a>
+    <div data-role="touch" data-id="${id}" id="${id}" data-tap="app.allInvestigation.onTouch">${title}</div>
 </script>

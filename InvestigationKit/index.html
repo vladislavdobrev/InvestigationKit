@@ -12,14 +12,14 @@
         <script src="kendo/js/kendo.mobile.min.js"></script>
         <script src="scripts/libs/rsvp.min.js"></script>
         <script src="scripts/libs/ClassCreate.js"></script>
-        
+
         <!--models-->
         <script src="models/investigation-model.js"></script>
         <script src="models/note-model.js"></script>
         <script src="models/image-model.js"></script>
         <script src="models/video-model.js"></script>
         <script src="models/sound-model.js"></script>
-        
+
         <!--view models-->
         <script src="view-models/new-investigation-viewModel.js"></script>
         <script src="view-models/all-investigation-viewModel.js"></script>
@@ -29,7 +29,8 @@
         <script src="view-models/google-maps-viewModel.js"></script>
         <script src="view-models/videos-viewModel.js"></script>
         <script src="view-models/sounds-viewModel.js"></script>
-        
+        <script src="view-models/home-viewModel.js"></script>
+
         <!--main-->
         <script src="scripts/app.js"></script>
 
@@ -37,25 +38,25 @@
     <body>
         <!--Home View-->
         <div data-role="view"
+             data-show="app.home.init"
              id="home-view"
              data-id="home-view"
              data-layout="home-layout"
              data-title="Home"
              data-stretch="true">
             <div id="home">
-                <h1>Investigation Kit</h1>
-                <a data-role="button"
-                   data-id="new-investigation"
-                   id="new-investigation"
-                   href="views/new-investigation-view.html#new-investigation-view">
+                <div data-role="touch"
+                     data-id="new-investigation"
+                     id="new-investigation"
+                     data-tap="app.home.createInvestigation">
                     Start new investigation
-                </a><br><br>
-                <a data-role="button"
-                   data-id="all-investigations"
-                   id="all-investigations"
-                   href="views/all-investigations-view.html#all-investigations-view">
+                </div>
+                <div data-role="touch"
+                     data-id="all-investigations"
+                     id="all-investigations"
+                     data-tap="app.home.allInvestigations">
                     View all investigations
-                </a>
+                </div>
             </div>
         </div>
 
@@ -71,13 +72,25 @@
             <footer data-role="footer">
             </footer>
         </div>
-        
+
         <div data-role="layout"
              id="not-home-layout"
              data-id="not-home-layout">
             <header data-role="header">
                 <div data-role="navbar">
                     <a data-role="backbutton" class="button" data-align="left">Back</a>
+                    <span data-role="view-title"></span>
+                </div>
+            </header>
+            <footer data-role="footer">
+            </footer>
+        </div>
+
+        <div data-role="layout"
+             id="investigation-layout"
+             data-id="investigation-layout">
+            <header data-role="header">
+                <div data-role="navbar">
                     <span data-role="view-title"></span>
                 </div>
             </header>

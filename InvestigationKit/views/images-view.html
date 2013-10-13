@@ -5,8 +5,7 @@
      data-title="Pictures"
      data-show="app.images.init">
     <div id="home">
-        <h1>Pictures</h1>
-        <a data-role="button" data-click="app.images.add">Take new picture</a>
+        <div data-role="touch" data-tap="app.images.add">Take new picture</div>
         <div data-role="scrollview" 
              data-bind="source: data" 
              data-template="imageTemplate"
@@ -19,6 +18,6 @@
 <script id="imageTemplate" type="text/x-kendo-template">
     <div>
         <div style="background-image: url(#: url #);"></div>
-        <a data-role="button" data-id="${id}" id="${id}" data-click="app.images.onTouch">Show the place where it's been taken</a>
+        <div data-role="touch" data-id="${id}" id="${id}" data-tap="app.images.onTouch">Show the place where it's been taken</div>
     </div>
 </script>
