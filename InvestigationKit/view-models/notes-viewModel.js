@@ -65,7 +65,7 @@ app.currentNote = app.currentNote || null;
     };
     
     function onTouch(e) {
-        setById(e.touch.initialTouch.id);
+        setById(e.touch.currentTarget.id);
     };
     
     function setById(id) {
@@ -78,10 +78,21 @@ app.currentNote = app.currentNote || null;
     };
     
     function convertToModel(sqliteModel) {
-        var newModel = new Note(sqliteModel.text, sqliteModel.created, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
+        var normalDate = new Date(sqliteModel.created);
+        var newModel = new Note(sqliteModel.text, dateToDMY(normalDate), sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
         newModel.id = sqliteModel.id;
         return newModel;
     };
+    
+    function dateToDMY(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+        return '' + (d <= 9 ? '0' + d : d) + '-' + (m <= 9 ? '0' + m : m) + '-' + y + " " + (h <= 9? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
+    }
     
     a.notes = {
         init: init,

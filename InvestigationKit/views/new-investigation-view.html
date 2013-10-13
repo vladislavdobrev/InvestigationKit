@@ -5,11 +5,12 @@
      data-title="New Investigation"
      data-show="app.newInvestigation.init">
     <div id="home">
-        <br>
         <input type="text"
+               id="new-investigation-input"
                placeholder="Enter a title"
                data-bind="value: title" />
-        <div data-tap="app.newInvestigation.start"
-                data-role="touch">Start a new investigation</div>
+            <a data-tap="app.newInvestigation.start"
+               data-role="touch"
+               class="touch-button">Start a new investigation</a>
     </div>
 </div>

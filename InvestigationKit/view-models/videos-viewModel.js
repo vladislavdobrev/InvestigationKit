@@ -65,7 +65,7 @@ app.currentVideo = app.currentVideo || null;
     };
     
     function onTouch(e) {
-        setById(e.touch.initialTouch.id);
+        setById(e.touch.currentTarget.id);
     };
     
     function setById(id) {

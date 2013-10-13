@@ -7,12 +7,14 @@
     <div id="home">
         <ul data-role="listview"
             data-bind="source: data"
-            data-style="inset"
             data-template="itemTemplate">
         </ul>
     </div>
 </div>
 
 <script type="text/x-kendo-template" id="itemTemplate">
-    <div data-role="touch" data-id="${id}" id="${id}" data-tap="app.allInvestigation.onTouch">${title}</div>
+    <a class="touch-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.allInvestigation.onTouch">
+        <span>Title: </span><span>${title}</span><br>
+        <span>Created on: </span><span>${created}</span>
+    </a>
 </script>
