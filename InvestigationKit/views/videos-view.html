@@ -6,18 +6,21 @@
      data-show="app.videos.init">
     <div id="home">
         <div data-role="touch" data-tap="app.videos.add" class="touch-button">Record new video</div>
-        <div data-role="scrollview" 
-             data-bind="source: data" 
-             data-template="videoTemplate"
-             data-content-height="100%"
-             data-enable-pager="false">
-        </div>
+        <ul data-role="listview"
+            data-bind="source: data"
+            data-template="videoTemplate">
+        </ul>
     </div>
 </div>
 
 <script id="videoTemplate" type="text/x-kendo-template">
-    <div>
-        <div style="background-image: url(#: url #);"></div>
-        <div class="touch-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.videos.onTouch">Show the place where it's been recorded</div>
-    </div>
+    <table width="100%">
+        <tr>
+            <td>
+                <span>
+                    <video width="320" height="240" controls><source src="${url}" type="video/mp4"/></video><br><span style="color: green;">${created}</span><br><a class="view-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.videos.onTouch">View location</a>
+                </span>
+            </td>
+        </tr>
+    </table>
 </script>

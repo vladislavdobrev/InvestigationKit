@@ -40,7 +40,7 @@ app.currentImage = app.currentImage || null;
             var image = new Image(url, cDate, latitude, longitude, app.currentInvestigation.id);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigation_images", [], function (x, y) {
                 image.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(image);
+                viewModel.data.push(convertToModel(image));
             }, a.error);
         });
     };
@@ -78,10 +78,21 @@ app.currentImage = app.currentImage || null;
     };
     
     function convertToModel(sqliteModel) {
-        var newModel = new Image(sqliteModel.url, sqliteModel.created, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
+        var normalDate = new Date(sqliteModel.created);
+        var newModel = new Image(sqliteModel.url, dateToDMY(normalDate), sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
         newModel.id = sqliteModel.id;
         return newModel;
     };
+    
+    function dateToDMY(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+        return '' + (d <= 9 ? '0' + d : d) + '-' + (m <= 9 ? '0' + m : m) + '-' + y + " " + (h <= 9? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
+    }
     
     a.images = {
         init: init,

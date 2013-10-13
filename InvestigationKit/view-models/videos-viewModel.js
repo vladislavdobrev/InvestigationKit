@@ -23,8 +23,8 @@ app.currentVideo = app.currentVideo || null;
         navigator.geolocation.getCurrentPosition(function(position) {
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
-            navigator.device.capture.captureVideo(function (videoFile) {
-                insertRecord(videoFile.fullPath, lat, long);
+            navigator.device.capture.captureVideo(function (videoFiles) {
+                insertRecord(videoFiles[0].fullPath, lat, long);
             }, a.error, {
                 limit: 1
             });
@@ -40,7 +40,7 @@ app.currentVideo = app.currentVideo || null;
             var video = new Video(url, cDate, latitude, longitude, app.currentInvestigation.id);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigation_videos", [], function (x, y) {
                 video.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(video);
+                viewModel.data.push(convertToModel(video));
             }, a.error);
         });
     };
@@ -78,10 +78,21 @@ app.currentVideo = app.currentVideo || null;
     };
     
     function convertToModel(sqliteModel) {
-        var newModel = new Video(sqliteModel.url, sqliteModel.created, sqliteModel.desc, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
+        var normalDate = new Date(sqliteModel.created);
+        var newModel = new Video(sqliteModel.url, dateToDMY(normalDate), sqliteModel.desc, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
         newModel.id = sqliteModel.id;
         return newModel;
     };
+    
+    function dateToDMY(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+        return '' + (d <= 9 ? '0' + d : d) + '-' + (m <= 9 ? '0' + m : m) + '-' + y + " " + (h <= 9? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
+    }
     
     a.videos = {
         init: init,

@@ -6,6 +6,12 @@ app.currentInvestigation = app.currentInvestigation || null;
 
 (function() {
     document.addEventListener("deviceready", function() {
+        window.addEventListener("batterycritical", onBatteryCritical, false);
+        
+        function onBatteryCritical(info) {
+            navigator.notification.alert("Your battery is about to die!!!%\nBattery level: " + info.level, null, "Plug your реcharger!");
+        }
+        
         app.application = new kendo.mobile.Application(document.body, { transition: "slide" });
         
         app.openDb = function() {
@@ -28,7 +34,7 @@ app.currentInvestigation = app.currentInvestigation || null;
             });
         };
         
-        app.error = function(error){
+        app.error = function(error) {
             navigator.notification.alert(error, null, "An error occure!");
         };
 

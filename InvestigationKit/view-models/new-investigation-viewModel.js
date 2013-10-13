@@ -15,8 +15,13 @@ app.currentInvestigation = app.currentInvestigation || null;
     }
     
     function start() {
-        insertRecord(viewModel.title);
-        a.application.navigate("views/investigation-view.html#investigation-view");
+        if (!viewModel.title.length) {
+            navigator.notification.alert("The title should not be empty", null, "Must not be empty!");
+        }
+        else {
+            insertRecord(viewModel.title);
+            a.application.navigate("views/investigation-view.html#investigation-view");
+        }
     }
     
     function insertRecord(t) {

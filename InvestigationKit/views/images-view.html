@@ -5,19 +5,20 @@
      data-title="Pictures"
      data-show="app.images.init">
     <div id="home">
-        <div data-role="touch" data-tap="app.images.add">Take new picture</div>
-        <div data-role="scrollview" 
-             data-bind="source: data" 
-             data-template="imageTemplate"
-             data-content-height="100%"
-             data-enable-pager="false">
-        </div>
+        <div data-role="touch" data-tap="app.images.add" class="touch-button">Make new picture</div>
+        <ul data-role="listview"
+            data-bind="source: data"
+            data-template="imageTemplate">
+        </ul>
     </div>
 </div>
 
 <script id="imageTemplate" type="text/x-kendo-template">
-    <div>
-        <div style="background-image: url(#: url #);"></div>
-        <div class="touch-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.images.onTouch">Show the place where it's been taken</div>
-    </div>
+    <table width="100%">
+        <tr>
+            <td>
+                <span><img src="${url}" width="300" height="300" /><br><span style="color: green;">${created}</span><br><a class="view-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.images.onTouch">View location</a></span>
+            </td>
+        </tr>
+    </table>
 </script>

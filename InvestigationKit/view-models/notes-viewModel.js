@@ -23,13 +23,18 @@ app.currentNote = app.currentNote || null;
     }
     
     function addNewNote(e) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var long = position.coords.longitude;
-            insertRecord(viewModel.newNote.text, lat, long);
-        }, a.error, {
-            enableHighAccuracy: true
-        });
+        if (!viewModel.newNote.text.length) {
+            navigator.notification.alert("The note should not be empty", null, "Must not be empty!");
+        }
+        else {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                insertRecord(viewModel.newNote.text, lat, long);
+            }, a.error, {
+                enableHighAccuracy: true
+            });
+        }
     }
     
     function insertRecord(text, latitude, longitude) {
@@ -39,7 +44,7 @@ app.currentNote = app.currentNote || null;
             var note = new Note(text, cDate, latitude, longitude, app.currentInvestigation.id);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigation_notes", [], function (x, y) {
                 note.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(note);
+                viewModel.data.push(convertToModel(note));
                 viewModel.newNote.text = "";
             }, a.error);
         });
