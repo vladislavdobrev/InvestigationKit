@@ -40,7 +40,7 @@ app.currentSound = app.currentSound || null;
             var sound = new Sound(url, cDate, latitude, longitude, app.currentInvestigation.id);
             tx.executeSql("SELECT MAX(id) as maxId FROM investigation_sounds", [], function (x, y) {
                 sound.id = y.rows.item(0)["maxId"];
-                viewModel.data.push(convertToModel(sound));
+                viewModel.data.push(convertToMediaModel(sound));
             }, a.error);
         });
     };
@@ -71,19 +71,17 @@ app.currentSound = app.currentSound || null;
     function setById(id) {
         app.db.transaction(function(tx) {
             tx.executeSql("SELECT * FROM investigation_sounds WHERE id = ?", [id], function(x, y) {
-                app.currentSound = convertToModel(y.rows.item(0));
+                app.currentSound = convertToMediaModel(y.rows.item(0));
                 a.application.navigate("views/google-maps-view.html#google-maps-view");
             }, a.error);
         });
     };
     
     function convertToMediaModel(sqliteModel) {
-        var media = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3", function() {
+        var media = new Media(sqliteModel.url, function() {
         }, a.error);
-        //var normalDate = new Date(sqliteModel.created);
-        //var newModel = new Sound(sqliteModel.url, dateToDMY(normalDate), sqliteModel.desc, sqliteModel.latitude, sqliteModel.longitude, sqliteModel.inv_id);
-        //newModel.id = sqliteModel.id;
-        return media;
+        var normalDate = new Date(sqliteModel.created);
+        return {id: sqliteModel.id, created: dateToDMY(normalDate), media: media};
     };
     
     function dateToDMY(date) {
@@ -96,9 +94,23 @@ app.currentSound = app.currentSound || null;
         return '' + (d <= 9 ? '0' + d : d) + '-' + (m <= 9 ? '0' + m : m) + '-' + y + " " + (h <= 9? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
     }
     
+    function onPlay(e) {
+        play(e.touch.currentTarget.id);
+    }
+    
+    function play(id) {
+        app.db.transaction(function(tx) {
+            tx.executeSql("SELECT * FROM investigation_sounds WHERE id = ?", [id], function(x, y) {
+                app.currentSound = convertToMediaModel(y.rows.item(0));
+                app.currentSound.media.play();
+            }, a.error);
+        });
+    }
+    
     a.sounds = {
         init: init,
         add: addNewSound,
-        onTouch: onTouch
+        onTouch: onTouch,
+        onPlay: onPlay
     };
 }(app));

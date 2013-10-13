@@ -14,18 +14,14 @@
 </div>
 
 <script type="text/x-kendo-template" id="soundTemplate">
-    <button data-role="touch" data-tap="play">Play</button>
-</script>
-
-<!--
-<table width="100%">
+    <table width="100%">
         <tr>
             <td>
-                <span><span>${url}</span><br><span style="color: green;">${created}</span></span>
+                <span><div class="touch-button" id="${id}" data-id="${id}" data-role="touch" data-tap="app.sounds.onPlay">Play</div><br><span style="color: green;">${created}</span></span>
             </td>
             <td width="30%">
                 <a class="view-button" data-role="touch" data-id="${id}" id="${id}" data-tap="app.sounds.onTouch">View location</a>
             </td>
         </tr>
     </table>
--->
+</script>

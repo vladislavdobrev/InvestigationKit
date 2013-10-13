@@ -31,6 +31,7 @@ app.currentInvestigation = app.currentInvestigation || null;
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_images (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_videos (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
                 tx.executeSql("CREATE TABLE IF NOT EXISTS investigation_sounds (id INTEGER PRIMARY KEY ASC, url TEXT, created DATETIME, latitude DOUBLE, longitude DOUBLE, inv_id INTEGER)", []);
+                //tx.executeSql("INSERT INTO investigation_sounds (url, created, latitude, longitude, inv_id) VALUES (?,?,?,?,?)", ["http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3", new Date(), 0, 0, 1]);
             });
         };
         
